@@ -1,13 +1,10 @@
 /* eslint-disable n8n-nodes-base/node-execute-block-wrong-error-thrown */
 import type { IExecuteFunctions, IHttpRequestOptions } from 'n8n-workflow';
 
-
-
 import {
 	INodeExecutionData,
 	INodeType,
 	INodeTypeDescription,
-	NodeConnectionType,
 } from 'n8n-workflow';
 
 export class Random implements INodeType {
@@ -21,8 +18,8 @@ export class Random implements INodeType {
 		defaults: {
 			name: 'Random',
 		},
-		inputs: [NodeConnectionType.Main],
-		outputs: [NodeConnectionType.Main],
+		inputs: ['main'],
+		outputs: ['main'],
 		properties: [
 			{
 				displayName: 'Min',
