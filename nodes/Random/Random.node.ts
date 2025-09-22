@@ -1,33 +1,29 @@
-import type { IExecuteFunctions } from 'n8n-workflow';
+/* eslint-disable n8n-nodes-base/node-execute-block-wrong-error-thrown */
+import type { IExecuteFunctions, IHttpRequestOptions } from 'n8n-workflow';
+
+
 
 import {
-	IDataObject,
 	INodeExecutionData,
 	INodeType,
 	INodeTypeDescription,
 	NodeConnectionType,
-	IHttpRequestOptions
 } from 'n8n-workflow';
-
-//import { OptionsWithUri } from 'request';
 
 export class Random implements INodeType {
 	description: INodeTypeDescription = {
-		// Basic node details will go here
 		displayName: 'Random',
 		name: 'random',
 		icon: 'file:icon.svg',
 		group: ['transform'],
 		version: 1,
-		subtitle: '={{ $parameter["operation"] + ": " + $parameter["resource"] }}',
 		description: 'Get a random number between 2 parameters',
 		defaults: {
-			name: 'Random default',
+			name: 'Random',
 		},
 		inputs: [NodeConnectionType.Main],
 		outputs: [NodeConnectionType.Main],
 		properties: [
-			// Resources and operations will go here
 			{
 				displayName: 'Min',
 				name: 'minNumber',
@@ -46,58 +42,58 @@ export class Random implements INodeType {
 				required: true,
 				description: 'Enter an integer value here',
 			},
-
+			{
+				displayName: 'True Random Number Generator',
+				name: 'generateNumber',
+				type: 'options',
+				options: [
+					{
+						name: 'True Random Number Generator',
+						value: 'generate',
+						description: 'Randomize a number',
+						action: 'Generate a number',
+					},
+				],
+				default: 'generate',
+				noDataExpression: true,
+			},
 		],
 	};
-	// The execute method will go here
-	/*async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
-		// Handle data coming from previous nodes
 
-
-
-
+	async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
 		const items = this.getInputData();
 		let responseData;
 		const returnData = [];
-		const resource = this.getNodeParameter('resource', 0) as string;
-		const operation = this.getNodeParameter('operation', 0) as string;
 
-		// For each item, make an API call to create a contact
+		const operation = this.getNodeParameter('generateNumber', 0) as string;
+
 		for (let i = 0; i < items.length; i++) {
-			if (resource === 'contact') {
-				if (operation === 'create') {
-					// Get email input
-					const email = this.getNodeParameter('email', i) as string;
-					// Get additional fields input
-					const additionalFields = this.getNodeParameter('additionalFields', i) as IDataObject;
-					const data: IDataObject = {
-						email,
-					};
+			const minNumber = this.getNodeParameter('minNumber', i) as number;
+			const maxNumber = this.getNodeParameter('maxNumber', i) as number;
 
-					Object.assign(data, additionalFields);
+			if (minNumber >= maxNumber) {
+				throw new Error('Min number cannot be equal or higher than max number.');
+			}
 
-					// Make HTTP request according to https://sendgrid.com/docs/api-reference/
-					const options: OptionsWithUri = {
-						headers: {
-							Accept: 'application/json',
-						},
-						method: 'PUT',
-						body: {
-							contacts: [data],
-						},
-						uri: `https://api.sendgrid.com/v3/marketing/contacts`,
-						json: true,
-					};
-					responseData = await this.helpers.requestWithAuthentication.call(
-						this,
-						'friendGridApi',
-						options,
-					);
-					returnData.push(responseData);
-				}
+			if (!Number.isInteger(maxNumber) || !Number.isInteger(minNumber)) {
+				throw new TypeError('The parameters must be Integer');
+			}
+
+			const url = `https://www.random.org/integers/?num=1&min=${minNumber}&max=${maxNumber}&col=1&base=10&format=plain&rnd=new`;
+
+			if (operation === 'generateNumber') {
+				const options: IHttpRequestOptions = {
+					method: 'GET',
+					url,
+					headers: {
+						Accept: 'application/json',
+					},
+				};
+				responseData = await this.helpers.httpRequest(options);
+				returnData.push(responseData);
 			}
 		}
-		// Map data to n8n data structure
+
 		return [this.helpers.returnJsonArray(returnData)];
-	}*/
+	}
 }

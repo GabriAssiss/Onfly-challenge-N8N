@@ -32,8 +32,7 @@
   ],
   "n8n": {
     "n8nNodesApiVersion": 1,
-    "credentials": [
-    ],
+    "credentials": [],
     "nodes": [
       "dist/nodes/Random/Random.node.js"
     ]
@@ -48,5 +47,9 @@
   },
   "peerDependencies": {
     "n8n-workflow": "*"
+  },
+  "dependencies": {
+    "node-fetch": "^3.3.2",
+    "request": "^2.88.2"
   }
 }
