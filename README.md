@@ -1,47 +1,116 @@
 ![Banner image](https://user-images.githubusercontent.com/10284570/173569848-c624317f-42b1-45a6-ab09-f0ea3c247648.png)
 
-# n8n-nodes-starter
+# Desafio: Conector n8n Customizado - Gerador de Números Aleatórios
 
-This repo contains example nodes to help you get started building your own custom integrations for [n8n](https://n8n.io). It includes the node linter and other dependencies.
+Este repositório é a solução para o desafio de desenvolvimento de um conector (nó) customizado para a plataforma de automação n8n. O objetivo foi estender as capacidades do n8n criando um nó que se integra a uma API externa para fornecer uma funcionalidade específica de forma simplificada ao usuário final.
 
-To make your custom node available to the community, you must create it as an npm package, and [submit it to the npm registry](https://docs.npmjs.com/packages-and-modules/contributing-packages-to-the-registry).
+O conector desenvolvido, chamado "Random", utiliza a API do Random.org para gerar números inteiros verdadeiramente aleatórios, a partir de um intervalo definido pelo usuário.
 
-If you would like your node to be available on n8n cloud you can also [submit your node for verification](https://docs.n8n.io/integrations/creating-nodes/deploy/submit-community-nodes/).
+O projeto inclui o código-fonte do conector e toda a infraestrutura Docker Compose necessária para executar uma instância local do n8n conectada a um banco de dados PostgreSQL.
 
-## Prerequisites
 
-You need the following installed on your development machine:
+## Funcionalidades
 
-* [git](https://git-scm.com/downloads)
-* Node.js and npm. Minimum version Node 20. You can find instructions on how to install both using nvm (Node Version Manager) for Linux, Mac, and WSL [here](https://github.com/nvm-sh/nvm). For Windows users, refer to Microsoft's guide to [Install NodeJS on Windows](https://docs.microsoft.com/en-us/windows/dev-environment/javascript/nodejs-on-windows).
-* Install n8n with:
-  ```
-  npm install n8n -g
-  ```
-* Recommended: follow n8n's guide to [set up your development environment](https://docs.n8n.io/integrations/creating-nodes/build/node-development-environment/).
+Conector: Random
 
-## Using this starter
+Operação: True Random Number Generator
 
-These are the basic steps for working with the starter. For detailed guidance on creating and publishing nodes, refer to the [documentation](https://docs.n8n.io/integrations/creating-nodes/).
+Inputs:
+* Min: O menor valor inteiro para o intervalo (inclusivo).
 
-1. [Generate a new repository](https://github.com/n8n-io/n8n-nodes-starter/generate) from this template repository.
-2. Clone your new repo:
-   ```
-   git clone https://github.com/<your organization>/<your-repo-name>.git
-   ```
-3. Run `npm i` to install dependencies.
-4. Open the project in your editor.
-5. Browse the examples in `/nodes` and `/credentials`. Modify the examples, or replace them with your own nodes.
-6. Update the `package.json` to match your details.
-7. Run `npm run lint` to check for errors or `npm run lintfix` to automatically fix errors when possible.
-8. Test your node locally. Refer to [Run your node locally](https://docs.n8n.io/integrations/creating-nodes/test/run-node-locally/) for guidance.
-9. Replace this README with documentation for your node. Use the [README_TEMPLATE](README_TEMPLATE.md) to get started.
-10. Update the LICENSE file to use your details.
-11. [Publish](https://docs.npmjs.com/packages-and-modules/contributing-packages-to-the-registry) your package to npm.
+* Max: O maior valor inteiro para o intervalo (inclusivo).
 
-## More information
+Output: Um único número inteiro aleatório, gerado pela API do Random.org.
 
-Refer to our [documentation on creating nodes](https://docs.n8n.io/integrations/creating-nodes/) for detailed information on building your own nodes.
+Ícone: O nó possui um ícone SVG customizado para fácil identificação na interface do n8n.
+
+## Tech Stack
+
+Automação: n8n v1.85.4
+
+Linguagem do Conector: Node.js v22 + TypeScript
+
+Containerização: Docker & Docker Compose
+
+Banco de Dados: PostgreSQL v17
+
+
+## Instalação e Configuração
+
+Siga os passos abaixo para preparar o ambiente e instalar as dependências do conector.
+
+1. Clone o Repositório
+
+	```
+	git clone https://github.com/seu-usuario/seu-repositorio.git
+	cd Onfly-challenge-N8N
+	```
+
+2. Instale as Dependências do Conector
+
+	O código do conector está isolado na pasta n8n-nodes-random. É necessário instalar suas dependências npm.
+
+	```
+	cd Onfly-challenge-N8N
+	npm install
+	```
+3. Compile o Código TypeScript
+
+	O n8n executa arquivos JavaScript. Como o conector foi desenvolvido em TypeScript, é preciso compilá-lo.
+
+	```
+	npm run build
+	```
+	Este comando cria uma pasta dist dentro de Onfly-challenge-N8N com os arquivos .ts que serão lidos pelo n8n.
+
+## Como Executar o Ambiente
+A infraestrutura completa é gerenciada pelo Docker Compose, simplificando a execução.
+
+1. Inicie os Contêineres
+
+	Volte para a pasta raiz do projeto (onde o arquivo docker-compose.yml se encontra) e execute o seguinte comando:
+
+	Inicie os serviços em modo 'detached' (em segundo plano)
+docker-compose up -d
+O Docker irá baixar as imagens do n8n e do Postgres e iniciará os contêineres. O docker-compose.yml está configurado para usar a versão 1.85.4 do n8n, conforme especificado nos requisitos, garantindo a estabilidade e reprodutibilidade do ambiente.
+
+2. Acesse o n8n
+
+	Aguarde um momento para os serviços iniciarem. A instância do n8n estará disponível no seu navegador:
+
+	URL: http://localhost:5678
+
+## Estrutura do Projeto
+```
+ONFLY-CHALLENGE-N8N
+├── .vscode/
+├── credentials/
+├── custom/
+├── dist/
+├── node_modules/
+├── nodes/
+│   └── Random/
+│       ├── icon.svg
+│       └── Random.node.ts
+├── .editorconfig
+├── .env
+├── .eslintrc.js
+├── .eslintrc.prepublish.js
+├── .gitignore
+├── .npmignore
+├── .prettierrc.js
+├── CODE_OF_CONDUCT.md
+├── docker-compose.yml
+├── gulpfile.js
+├── index.js
+├── LICENSE.md
+├── Makefile
+├── package-lock.json
+├── package.json
+├── README_TEMPLATE.md
+├── README.md
+└── tsconfig.json
+```
 
 ## License
 
