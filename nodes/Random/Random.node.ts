@@ -34,14 +34,14 @@ export class Random implements INodeType {
 				displayName: 'Max',
 				name: 'maxNumber',
 				type: 'number',
-				default: 100,
+				default: 60,
 				noDataExpression: true,
 				required: true,
 				description: 'Enter an integer value here',
 			},
 			{
 				displayName: 'True Random Number Generator',
-				name: 'generateNumber',
+				name: 'generate',
 				type: 'options',
 				options: [
 					{
@@ -62,7 +62,7 @@ export class Random implements INodeType {
 		let responseData;
 		const returnData = [];
 
-		const operation = this.getNodeParameter('generateNumber', 0) as string;
+		const operation = this.getNodeParameter('generate', 0) as string;
 
 		for (let i = 0; i < items.length; i++) {
 			const minNumber = this.getNodeParameter('minNumber', i) as number;
@@ -78,14 +78,12 @@ export class Random implements INodeType {
 
 			const url = `https://www.random.org/integers/?num=1&min=${minNumber}&max=${maxNumber}&col=1&base=10&format=plain&rnd=new`;
 
-			if (operation === 'generateNumber') {
+			if (operation === 'generate') {
 				const options: IHttpRequestOptions = {
 					method: 'GET',
 					url,
-					headers: {
-						Accept: 'application/json',
-					},
 				};
+
 				responseData = await this.helpers.httpRequest(options);
 				returnData.push(responseData);
 			}
