@@ -8,7 +8,7 @@ O conector desenvolvido, chamado "Random", utiliza a API do Random.org para gera
 
 O projeto inclui o código-fonte do conector e toda a infraestrutura Docker Compose necessária para executar uma instância local do n8n conectada a um banco de dados PostgreSQL.
 
-
+_____
 ## Funcionalidades
 
 Conector: Random
@@ -23,6 +23,7 @@ Inputs:
 Output: Um único número inteiro aleatório, gerado pela API do Random.org.
 
 Ícone: O nó possui um ícone SVG customizado para fácil identificação na interface do n8n.
+_____
 
 ## Tech Stack
 
@@ -34,7 +35,7 @@ Containerização: Docker & Docker Compose
 
 Banco de Dados: PostgreSQL v17
 
-
+____
 ## Instalação e Configuração
 
 Siga os passos abaixo para preparar o ambiente e instalar as dependências do conector.
@@ -62,6 +63,8 @@ Siga os passos abaixo para preparar o ambiente e instalar as dependências do co
 	npm run build
 	```
 	Este comando cria uma pasta dist dentro de Onfly-challenge-N8N com os arquivos .ts que serão lidos pelo n8n.
+	
+_____
 
 ## Como Executar o Ambiente
 A infraestrutura completa é gerenciada pelo Docker Compose, simplificando a execução.
@@ -80,6 +83,8 @@ O Docker irá baixar as imagens do n8n e do Postgres e iniciará os contêineres
 
 	URL: http://localhost:5678
 
+
+___
 ## Estrutura do Projeto
 ```
 ONFLY-CHALLENGE-N8N
