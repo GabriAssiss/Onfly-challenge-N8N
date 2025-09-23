@@ -21,7 +21,7 @@ services:
       start_period: 15s
 
   n8n_data:
-    image: docker.n8n.io/n8nio/n8n:1.85.4
+    build: .
     restart: unless-stopped
     environment:
       - DB_TYPE=postgresdb
@@ -35,9 +35,6 @@ services:
       - "5678:5678"
     links:
       - postgres
-    volumes:
-      - n8n_data:/home/node/.n8n
-      - ./custom:/home/node/.n8n/custom
     depends_on:
       postgres:
         condition: service_healthy
