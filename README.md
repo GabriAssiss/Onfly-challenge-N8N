@@ -73,17 +73,40 @@ A infraestrutura completa é gerenciada pelo Docker Compose, simplificando a exe
 
 	Volte para a pasta raiz do projeto (onde o arquivo docker-compose.yml se encontra) e execute o seguinte comando:
 
-	Inicie os serviços em modo 'detached' (em segundo plano)
-docker-compose up -d
-O Docker irá baixar as imagens do n8n e do Postgres e iniciará os contêineres. O docker-compose.yml está configurado para usar a versão 1.85.4 do n8n, conforme especificado nos requisitos, garantindo a estabilidade e reprodutibilidade do ambiente.
+	```
+	docker compose up -d --build
+	```
+	O Docker irá baixar as imagens do n8n e do Postgres e iniciará os contêineres. O docker-compose.yml está configurado para usar a versão 1.85.4 do n8n.
 
 2. Acesse o n8n
 
 	Aguarde um momento para os serviços iniciarem. A instância do n8n estará disponível no seu navegador:
 
 	URL: http://localhost:5678
+___
 
+## Teste
 
+Acesse sua instância do n8n e crie um workflow
+
+Clique no botão + para adicionar um novo nó
+
+ Digite "Random" na barra de busca e adicione o nó 
+
+Configure os campos "Min" e "Max" com os valores desejados
+
+Execute o fluxo para ver o número aleatório gerado na saída
+
+____
+## Exemplo de Arquivo ENV
+```
+POSTGRES_USER=SEU_USUARIO
+POSTGRES_PASSWORD=SUA_SENHA
+POSTGRES_DB=SEU_BANCO_DE_DADOS
+POSTGRES_NON_ROOT_USER=SEU_USUARIO_NAO_ROOT
+POSTGRES_NON_ROOT_PASSWORD=SUA_SENHA_NAO_ROOT
+TIMEZONE_USER=America/Sao_Paulo
+```
 ___
 ## Estrutura do Projeto
 ```
@@ -116,7 +139,3 @@ ONFLY-CHALLENGE-N8N
 ├── README.md
 └── tsconfig.json
 ```
-
-## License
-
-[MIT](https://github.com/n8n-io/n8n-nodes-starter/blob/master/LICENSE.md)
