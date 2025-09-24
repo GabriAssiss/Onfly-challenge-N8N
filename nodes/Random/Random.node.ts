@@ -1,10 +1,10 @@
-/* eslint-disable n8n-nodes-base/node-execute-block-wrong-error-thrown */
 import type { IExecuteFunctions, IHttpRequestOptions } from 'n8n-workflow';
 
 import {
 	INodeExecutionData,
 	INodeType,
 	INodeTypeDescription,
+	NodeOperationError,
 } from 'n8n-workflow';
 
 export class Random implements INodeType {
@@ -28,6 +28,11 @@ export class Random implements INodeType {
 				default: 1,
 				noDataExpression: true,
 				required: true,
+				typeOptions: {
+					maxValue: 1_000_000_000,
+					minValue: -1_000_000_000,
+					numberPrecision: 0,
+				},
 				description: 'Enter an integer value here',
 			},
 			{
@@ -37,6 +42,11 @@ export class Random implements INodeType {
 				default: 60,
 				noDataExpression: true,
 				required: true,
+				typeOptions: {
+					maxValue: 	1_000_000_000,
+					minValue: -1_000_000_000,
+					numberPrecision: 0,
+				},
 				description: 'Enter an integer value here',
 			},
 			{
@@ -69,11 +79,10 @@ export class Random implements INodeType {
 			const maxNumber = this.getNodeParameter('maxNumber', i) as number;
 
 			if (minNumber >= maxNumber) {
-				throw new Error('Min number cannot be equal or higher than max number.');
-			}
-
-			if (!Number.isInteger(maxNumber) || !Number.isInteger(minNumber)) {
-				throw new TypeError('The parameters must be Integer');
+				throw new NodeOperationError(
+					this.getNode(),
+					'Min number cannot be equal or higher than max number.',
+				);
 			}
 
 			const url = `https://www.random.org/integers/?num=1&min=${minNumber}&max=${maxNumber}&col=1&base=10&format=plain&rnd=new`;
